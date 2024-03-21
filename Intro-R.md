@@ -309,6 +309,13 @@ ggplot(housing, aes(x = Home.Value)) +
 
 
 ```
+library (dplyr)
+ggplot(filter(housing, State %in% c("MA", "TX")),
+       aes(x=Date,
+           y=Home.Value,
+           color=State))+
+  geom_point()
+
 ggplot(housing, aes(x=State, y=Home.Value, color=State)) + geom_boxplot()
 ```
 
@@ -346,7 +353,7 @@ help.search("geom_", package = "ggplot2")
 ### Algunos otros Gráficos:
 
 ```
-library (dplyr)
+
 
 hp2001Q1 <- filter(housing, Date == 2001.25)
 
