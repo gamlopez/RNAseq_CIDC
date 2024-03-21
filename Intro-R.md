@@ -309,9 +309,7 @@ ggplot(housing, aes(x = Home.Value)) +
 
 
 ```
-ggplot(filter(housing, State %in% c("MA", "TX")),
-       aes(x=Date, y=Home.Value, color=State))+
-       geom_point()
+ggplot(housing, aes(x=State, y=Home.Value, color=State)) + geom_boxplot()
 ```
 
 ### Mapeo aestético
