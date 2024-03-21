@@ -284,7 +284,7 @@ library (ggplot2)
 Cargamos los datos de ejemplo, que son los precios de las casas en los diferentes estados de USA.
 
 ```
-housing <- read_csv("dataSets/landdata-states.csv")
+housing <- read.csv("landdata-states.csv")
 ```
 
 Para ver la estructura del archivo podemos usar el comando `head`
