@@ -375,6 +375,166 @@ Si desean saber mas sobre este tutorial consulta el siguiente enlace: https://rp
 
 
 
+ It is also possible to upload a table as data frame in R, in this example we will use the file "", which you created in the previous session. To perform this step we are using the function read.table(), too visualize the first columns of the table you could use the R command head().
+
+    geneExpression<-read.table("./RawCounts_phiAb11510.txt",h=T)
+    head(geneExpression)
+                      GeneId C28a C28b C37a C37b
+    1 phi-Ab11510_11551.fna_00009   38   75   48   75
+    2 phi-Ab11510_11551.fna_00008 1039  881  538  640
+    3 phi-Ab11510_11551.fna_00007  949  877  891 1025
+    4 phi-Ab11510_11551.fna_00006  353  274  424  476
+    5 phi-Ab11510_11551.fna_00005  280  266  376  421
+    6 phi-Ab11510_11551.fna_00004  543  553  673  821
+    
+    #Converting the table from list to data.frame
+    geneExpression<- data.frame(geneExpression)
+
+You could access data frames the same way as matrices.
+
+To enter elements in matrices you must specify two positions, the column number and the row number:
+
+dataframe_name[row_position,column_position] # ALWAYS in that order 
+
+Example.
+
+    geneExpression[5,3]
+    [1] 266
+    
+    #Using ranges of positions, you can do this using vectors of positions. (The following applies to matrices too)
+    
+    geneExpression[c(1:6),(2:5)]
+      C28a C28b C37a C37b
+    1   38   75   48   75
+    2 1039  881  538  640
+    3  949  877  891 1025
+    4  353  274  424  476
+    5  280  266  376  421
+    6  543  553  673  821
+
+With data frames you could also perform calculations. For example if you want to compute the correlation between treatments, with the function cor() we can calculate this correlation between 2 columns of a data frame, the output of this function is a scalar for 2 vectors, a symmetric matrix instead. See below.
+
+    #Calculating correlation matrices between C28a and C28b
+    cor_C28<-cor(geneExpression$C28a,geneExpression$C28b)
+    cor_C28
+    [1] 0.9997915
+    
+    #Calculating correlation matrices between C37a and C37b
+    cor_C37<-cor(geneExpression$C37a,geneExpression$C37b)
+    cor_C37
+    [1] 0.9997988
+    
+    #You could also calculate the correlation among all treatments (C28a, C28b, C37a, and C37b)
+    cor_all<-cor(geneExpression[c(1:6),(2:5)])
+    cor_all
+              C28a      C28b      C37a      C37b
+    C28a 1.0000000 0.9916193 0.8056046 0.8086684
+    C28b 0.9916193 1.0000000 0.8420575 0.8497559
+    C37a 0.8056046 0.8420575 1.0000000 0.9976483
+    C37b 0.8086684 0.8497559 0.9976483 1.0000000
+
+At this point if you use the command objects() orls(), you could see all the elements that you have created throughout the workshop development. 
+
+Plots
+
+Now, in this section we're going to use the package ggplot2 (v.3.3.2) to graph some plots. To upload the package in the R session you have to use the following command
+
+library(ggplot2)
+
+However, we can use R basic functions to create some plots, for example, histograms, boxplots, density plots, and others.
+
+Examples.
+
+We want to see the distribution of gene expression at the C37b condition. To visualize it, we could plot a histogram
+
+    #To print the image in .png format
+    hist(geneExpression$C37b)
+
+
+
+Now, to obtain the density plot you could use the following commands
+
+plot(density(geneExpression$C37b))
+
+
+
+To plot the histograms using the function geom_histogram() from the ggplot2 package
+
+ggplot(geneExpression,aes(x=C37b))+geom_histogram()
+
+You can also compare between different conditions using different colors for each condition. To do this, it is necessary to change the dataset structure using the function melt(), as follows. This function is part of the package reshape2 (v.1.4.4). You must load the library before using the function
+
+    #Loading library
+    library(reshape2)
+    
+    #Change dataset structure
+    geneExp_melted<-melt(geneExpression)
+    
+    #Visualize the first lines of the dataset
+    head(geneExp_melted)
+                           GeneId variable value
+    1 phi-Ab11510_11551.fna_00009     C28a    38
+    2 phi-Ab11510_11551.fna_00008     C28a  1039
+    3 phi-Ab11510_11551.fna_00007     C28a   949
+    4 phi-Ab11510_11551.fna_00006     C28a   353
+    5 phi-Ab11510_11551.fna_00005     C28a   280
+    6 phi-Ab11510_11551.fna_00004     C28a   543
+    
+    #Changing column names
+    names(geneExp_melted) <-c("GeneId","Treatment","RawCounts")
+    
+    #If you use the function head() to visualize the dataset, you will be able to observe the variable names change.
+    head(geneExp_melted)
+                           GeneId Treatment RawCounts
+    1 phi-Ab11510_11551.fna_00009      C28a        38
+    2 phi-Ab11510_11551.fna_00008      C28a      1039
+    3 phi-Ab11510_11551.fna_00007      C28a       949
+    4 phi-Ab11510_11551.fna_00006      C28a       353
+    5 phi-Ab11510_11551.fna_00005      C28a       280
+    6 phi-Ab11510_11551.fna_00004      C28a       543
+
+Notice that now, the dataset has changed, the columns have changed. Now each treatment is a value of the column "Treatment" and the counts per gene_id and treatment form the "RawCounts" column of the dataset. Now you could use ggplot() to graph the plot comparing the Raw Counts distribution between treatments.
+
+    #The geometry geom_histogram() just requires the x axis and fill (color) definition. In this case the x axis are the RawCounts per treatment and to differentiate each treatment by a color key we set the fill parameter based on the Treatment column values. 
+    
+    ggplot(geneExp_melted,aes(x=RawCounts,fill=Treatment))+geom_histogram()
+
+
+
+Or you could use another geometry, geom_boxplot()
+
+The geometry geom_boxplot() requires the x axis, y axis and fill (color) to be defined. In this case the x axis are the Treatments, the x axis are the RawCounts per treatment and to differentiate each treatment by a color key we set the fill parameter based on the Treatment column values. 
+
+    ggplot(geneExp_melted,aes(y=RawCounts,x=Treatment,fill=Treatment))+geom_boxplot()
+
+As you can see there are some outliers in the distributions, meaning genes that have a raw count bigger than the mean so it is impossible to see details. To solve this problem we are going to applylog10() transformation on RawCounts. 
+
+    #Add a new column to the dataset, this column will be the log10(rawcounts+1)
+    
+    geneExp_melted$logRawCounts<-log10(geneExp_melted$RawCounts+1)
+    
+    #New Plots
+    #histogram
+    
+    ggplot(geneExp_melted,aes(x=logRawCounts,fill=Treatment))+ geom_histogram()
+    
+    #boxplot
+    
+    ggplot(geneExp_melted,aes(y=logRawCounts,x=Treatment,fill=Treatment))+ geom_boxplot()
+
+Now, it is easier to compare between each treatment distribution
+
+Using the melting strategy you could also obtain a correlation plot, using the correlation matrix computed in the previous section.
+
+    #Melting the dataset
+    cor_melted<-melt(cor_all)
+    names(cor_melted)<-c("Treatment1","Treatment2","Correlation")
+    
+    ggplot(cor_melted, aes(x=Treatment1, y= Treatment2, fill= Correlation)) + geom_tile()
+
+Besides, corrplot (v.0.84) is another package that could be used to plot the correlation matrix without need to melt it.
+
+ corrplot(cor_all)
 
 
 
