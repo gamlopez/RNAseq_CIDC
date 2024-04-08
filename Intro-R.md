@@ -377,7 +377,7 @@ Si desean saber mas sobre este tutorial consulta el siguiente enlace: https://rp
 
  It is also possible to upload a table as data frame in R, in this example we will use the file "", which you created in the previous session. To perform this step we are using the function read.table(), too visualize the first columns of the table you could use the R command head().
 
-    geneExpression<-read.table("./RawCounts_phiAb11510.txt",h=T)
+    geneExpression<-read.table("RawCounts_phiAb11510.txt",h=T)
     head(geneExpression)
                       GeneId C28a C28b C37a C37b
     1 phi-Ab11510_11551.fna_00009   38   75   48   75
