@@ -62,9 +62,9 @@ samtools view -h -o MappedReads_SORTED.sam MappedReads_SORTED.bam
 
 # Read Count
 
-An important aspect in RNA-Seq analyzes is to incorporate in a table the number of reads mapped for each gene. For this, we fisrt we have to perform a gene calling and annotation of the reference genome. This time we are going to use pharokka (https://github.com/tseemann/prokka)
+An important aspect in RNA-Seq analyzes is to incorporate in a table the number of reads mapped for each gene. For this, we fisrt we have to perform a gene calling and annotation of the reference genome. This time we are going to use pharokka (https://github.com/gbouras13/pharokka)
 
-##### PROKKA
+##### PHAROKKA
 
 ```
 cd $HOME
