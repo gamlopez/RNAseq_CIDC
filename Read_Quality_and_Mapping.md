@@ -111,7 +111,7 @@ perl formatGFF.pl PROKKA.gff > new-formatted_prokka.gff
 run `htseq-count`
 
 ```
-htseq-count -m union -a 2 -s no --idattr=gene_id /scratch/gama/RNAseq-CIDC/outfile_37b_SORTED.bam  new-formatted_pharokka.gff -o COUNTS > Counts-37b.txt```
+htseq-count -m union -a 2 -s no --idattr=gene_id /scratch/gama/RNAseq-CIDC/outfile_37b_SORTED.bam  new-formatted_pharokka.gff -o COUNTS > Counts-37b.txt
 
 
 
