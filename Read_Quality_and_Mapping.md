@@ -71,7 +71,7 @@ cd $HOME
 cp .bashrc.conda .bashrc
 #salir de la sesión y volver a entrar
 conda activate pharokka_env
-pharokka ReferenceGenome.fna
+pharokka -i ReferenceGenome.fna
 ```
 
 ##### PHAROKKA Output Files
