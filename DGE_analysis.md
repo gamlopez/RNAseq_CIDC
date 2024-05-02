@@ -27,7 +27,7 @@ Use DESeq2 from bioconductor package (http://bioconductor.org/packages/release/b
 With the function `read.csv` read your gene expression table
 
 ```
-countData <- read.csv("A_B.table.txt", header=T, row.names=1, sep="\t") 
+countData <- read.csv("RawCounts_phiAb11510.txt", header=T, row.names=1, sep="\t") 
 ```
 
 ```
@@ -109,7 +109,7 @@ Load the library
 Read the gene expression table
 
 ```
-countData <- read.csv("B_A.table.txt", header=T, row.names=1, sep="\t")
+countData <- read.csv("RawCounts_phiAb11510.txt", header=T, row.names=1, sep="\t")
 head(countData)
 ```
 
